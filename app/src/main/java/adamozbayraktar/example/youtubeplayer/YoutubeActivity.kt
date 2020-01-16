@@ -1,6 +1,7 @@
 package adamozbayraktar.example.youtubeplayer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +14,7 @@ const val YOUTUBE_VIDEO_ID = "G1IbRujko-A"
 const val YOUTUBE_PLAYLIST = "TODO"
 
 class YoutubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
-
+    private val TAG = "YoutubeActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_youtube)
@@ -36,11 +37,18 @@ class YoutubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
     }
 
     override fun onInitializationSuccess(
-        p0: YouTubePlayer.Provider?,
-        p1: YouTubePlayer?,
-        p2: Boolean
+        provider: YouTubePlayer.Provider?,
+        youTubePlayer: YouTubePlayer?,
+        wasRestored: Boolean
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d(TAG, "onInitializationSuccess: provider is ${provider?.javaClass}")
+        Log.d(TAG, "onInitializationSuccess: youTubePlayer is ${youTubePlayer?.javaClass}")
+        Toast.makeText(this, "Initialized YouTube Player successfully", Toast.LENGTH_SHORT).show()
+
+        if (!wasRestored) {
+            youTubePlayer?.cueVideo(YOUTUBE_VIDEO_ID)
+        }
+
     }
 
     override fun onInitializationFailure(
